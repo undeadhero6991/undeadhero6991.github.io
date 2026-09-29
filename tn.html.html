@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trắc Nghiệm Câu Bị Động Tiếng Anh Lớp 8 - Nâng Cao</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        edu: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#035480',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        .option-btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            touch-action: manipulation;
+        }
+        .option-btn:active {
+            transform: scale(0.98);
+        }
+        .custom-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+        }
+        @keyframes pulse-subtle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.03); }
+        }
+        .animate-pulse-subtle {
+            animation: pulse-subtle 2s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="min-h-[100dvh] text-slate-800 flex flex-col justify-between items-center p-3 sm:p-6 select-none overflow-x-hidden">
+
+    <div id="app" class="w-full max-w-xl mx-auto bg-white rounded-3xl custom-shadow border border-slate-100 my-auto overflow-hidden flex flex-col min-h-[580px] sm:min-h-[650px] relative">
+        
+        <!-- Header Bar -->
+        <header class="bg-indigo-900 text-white px-5 py-4 flex items-center justify-between border-b border-indigo-800">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-400 to-indigo-500 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                    <i class="fa-solid fa-award"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-base sm:text-lg leading-tight">Tiếng Anh Lớp 8 - Nâng Cao</h1>
+                    <p class="text-xs text-amber-200">Thách Thức Câu Bị Động & Bẫy Ngữ Pháp</p>
+                </div>
+            </div>
+            
+            <button id="soundToggleBtn" onclick="toggleSound()" class="p-2.5 rounded-xl bg-indigo-800 text-slate-200 hover:text-white transition focus:outline-none" title="Bật/Tắt âm thanh">
+                <i id="soundIcon" class="fa-solid fa-volume-high text-lg"></i>
+            </button>
+        </header>
+
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen" class="p-6 sm:p-8 flex-1 flex flex-col justify-between items-center text-center">
+            <div class="my-auto space-y-6 w-full">
+                <div class="inline-flex p-4 bg-amber-50 text-amber-600 rounded-3xl mb-1 animate-pulse-subtle">
+                    <i class="fa-solid fa-fire text-5xl"></i>
+                </div>
+                
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">
+                    Chinh Phục Câu Bị Động <br/><span class="text-indigo-600">Mức Độ Nâng Cao</span>
+                </h2>
+                
+                <p class="text-slate-600 text-base sm:text-lg leading-relaxed max-w-md mx-auto">
+                    Thử sức với <strong>10 câu hỏi nâng cao</strong> gồm bị động không ngôi, thể nhờ bảo, bẫy nội động từ và các dạng đặc biệt.
+                </p>
+
+                <div class="bg-indigo-50 border border-indigo-100 rounded-2xl p-4 text-left text-indigo-950 text-sm flex items-start space-x-3">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-600 text-xl mt-0.5 flex-shrink-0"></i>
+                    <div>
+                        <span class="font-bold block text-base mb-0.5 text-indigo-900">Lưu ý cho học sinh khá giỏi:</span>
+                        Hãy đọc kỹ từng phương án! Các câu hỏi được thiết kế với nhiều trường hợp ngoại lệ và bẫy ngữ pháp thường gặp trong đề thi.
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="startQuiz()" class="w-full py-4 px-6 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xl rounded-2xl shadow-lg shadow-indigo-500/25 transition duration-200 active:scale-95 flex items-center justify-center space-x-3 mt-6">
+                <span>Thử Sức Ngay</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <!-- Quiz Screen (Hidden initially) -->
+        <div id="quizScreen" class="p-5 sm:p-6 flex-1 flex-col justify-between hidden">
+            
+            <!-- Question Header & Progress -->
+            <div class="space-y-3 mb-4">
+                <div class="flex justify-between items-center">
+                    <span id="questionCategory" class="text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200">
+                        Chủ đề nâng cao
+                    </span>
+                    <span id="progressText" class="text-sm font-bold text-slate-500">
+                        Câu 1 / 10
+                    </span>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                    <div id="progressBar" class="bg-indigo-600 h-full w-0 transition-all duration-300 rounded-full"></div>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="space-y-4 my-auto">
+                <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200/80">
+                    <h3 id="questionTitle" class="text-base sm:text-lg font-bold text-indigo-900 leading-snug mb-2">
+                        Tiêu đề dạng bài...
+                    </h3>
+                    <p id="questionText" class="text-slate-800 text-lg sm:text-xl font-medium leading-relaxed">
+                        Nội dung câu hỏi...
+                    </p>
+                </div>
+
+                <!-- Options List -->
+                <div id="optionsContainer" class="space-y-3">
+                    <!-- Dynamic option buttons go here -->
+                </div>
+            </div>
+
+            <!-- Feedback Banner & Next Button (Hidden initially) -->
+            <div id="feedbackContainer" class="mt-4 hidden animate-fade-in">
+                <div id="feedbackBox" class="p-4 rounded-2xl mb-4 border text-base">
+                    <div class="flex items-center space-x-2 font-bold text-lg mb-1" id="feedbackTitle">
+                        <!-- Correct/Incorrect title -->
+                    </div>
+                    <p id="feedbackText" class="text-slate-700 text-sm sm:text-base leading-relaxed">
+                        <!-- Explanation -->
+                    </p>
+                </div>
+
+                <button id="nextBtn" onclick="nextQuestion()" class="w-full py-4 px-6 bg-slate-900 hover:bg-black text-white font-bold text-lg rounded-2xl shadow-md transition duration-200 active:scale-95 flex items-center justify-center space-x-2">
+                    <span id="nextBtnText">Câu Tiếp Theo</span>
+                    <i class="fa-solid fa-chevron-right text-sm"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Screen (Hidden initially) -->
+        <div id="resultScreen" class="p-6 sm:p-8 flex-1 flex flex-col justify-between text-center hidden">
+            <div class="space-y-6 my-auto">
+                <!-- Result Badge Icon -->
+                <div id="resultBadge" class="w-24 h-24 mx-auto rounded-3xl flex items-center justify-center text-5xl shadow-xl transition-all">
+                    🏆
+                </div>
+
+                <div>
+                    <span class="text-sm uppercase tracking-widest font-bold text-slate-400 block mb-1">Kết Quả Bài Làm Nâng Cao</span>
+                    <h2 id="resultScore" class="text-4xl sm:text-5xl font-extrabold text-slate-900">
+                        8 / 10
+                    </h2>
+                    <p id="resultTitle" class="text-xl font-bold text-indigo-600 mt-2">
+                        Xuất Sắc!
+                    </p>
+                </div>
+
+                <!-- Advice Box -->
+                <div id="adviceBox" class="bg-indigo-50 border border-indigo-200 p-5 rounded-2xl text-left text-slate-800 space-y-2">
+                    <h4 class="font-bold text-base text-indigo-900 flex items-center space-x-2">
+                        <i class="fa-solid fa-pen-to-square text-indigo-600"></i>
+                        <span>Đánh Giá & Lời Khuyên:</span>
+                    </h4>
+                    <p id="adviceText" class="text-sm sm:text-base text-slate-700 leading-relaxed">
+                        Nội dung lời khuyên...
+                    </p>
+                </div>
+
+                <!-- Formula Quick Cheat-sheet for Advanced Passive -->
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-2xl text-left text-slate-900 text-xs sm:text-sm space-y-1">
+                    <p class="font-bold flex items-center space-x-1.5 text-indigo-900 text-sm">
+                        <i class="fa-solid fa-key text-amber-500"></i>
+                        <span>Tóm tắt cấu trúc Bị Động Nâng Cao:</span>
+                    </p>
+                    <ul class="list-disc list-inside space-y-1 text-slate-700">
+                        <li><strong>Bị động không ngôi:</strong> It + is/was + V3 (said/believed) + that + S + V</li>
+                        <li><strong>Thể nhờ bảo:</strong> Have + sth + V3/ed | Get + sth + V3/ed</li>
+                        <li><strong>Động từ tri giác:</strong> see/hear sb do ➔ be seen/heard TO do</li>
+                        <li><strong>Lưu ý:</strong> Nội động từ (happen, occur, arrive...) KHÔNG dùng bị động</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="space-y-3 mt-6">
+                <button onclick="restartQuiz()" class="w-full py-4 px-6 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg rounded-2xl shadow-lg shadow-indigo-500/25 transition duration-200 active:scale-95 flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>Thử Thách Lại Bài Thi</span>
+                </button>
+                <button onclick="shareResults()" class="w-full py-3.5 px-6 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-base rounded-2xl transition active:scale-95 flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-share-nodes"></i>
+                    <span>Sao Chép Điểm Số Đạt Được</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Custom Toast -->
+        <div id="toast" class="absolute top-4 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-5 py-3 rounded-full text-sm font-semibold shadow-2xl opacity-0 transition-opacity pointer-events-none z-50 flex items-center space-x-2">
+            <i class="fa-solid fa-circle-check text-emerald-400"></i>
+            <span id="toastText">Đã sao chép!</span>
+        </div>
+    </div>
+
+    <script>
+        // 10 Advanced Grade 8 Passive Voice Questions with traps and complex structures
+        const questions = [
+            {
+                id: 1,
+                category: "Bị Động Không Ngôi (Impersonal Passive)",
+                title: "Chọn phương án đúng để hoàn thành câu bị động:",
+                question: "People believe that the ancient temple was built in the 15th century.\n➔ It ______ that the ancient temple was built in the 15th century.",
+                options: [
+                    "was believed",
+                    "is believed",
+                    "has believed",
+                    "is believing"
+                ],
+                correct: 1,
+                explanation: "Cấu trúc bị động không ngôi với động từ chỉ ý kiến ở hiện tại (believe): 'People believe that + S + V' ➔ 'It is believed that + S + V'."
+            },
+            {
+                id: 2,
+                category: "Bị Động 2 Tân Ngữ (Giới Từ Đi Kèm)",
+                title: "Điền giới từ thích hợp cho câu bị động sau:",
+                question: "The teacher gave the best student a rewarding scholarship last week.\n➔ A rewarding scholarship was given ______ the best student last week.",
+                options: [
+                    "for",
+                    "with",
+                    "to",
+                    "by"
+                ],
+                correct: 2,
+                explanation: "Với động từ 'give', khi đưa tân ngữ chỉ vật lên làm chủ ngữ bị động, ta phải dùng giới từ 'to' trước tân ngữ chỉ người (given TO someone)."
+            },
+            {
+                id: 3,
+                category: "Bẫy Nội Động Từ (Intransitive Verbs)",
+                title: "Nhận biết bẫy ngữ pháp:",
+                question: "Câu nào dưới đây KHÔNG THỂ chuyển sang dạng Bị Động (Passive Voice)?",
+                options: [
+                    "An unexpected accident happened on the main road yesterday.",
+                    "They built a new bridge across the river last month.",
+                    "Someone stole my leather wallet while I was shopping.",
+                    "A famous scientist wrote this interesting book in 1990."
+                ],
+                correct: 0,
+                explanation: "Động từ 'happen' là nội động từ (intransitive verb), không nhận tân ngữ trực tiếp nên KHÔNG BAO GIỜ được dùng ở dạng bị động."
+            },
+            {
+                id: 4,
+                category: "Bị Động Với Động Từ Chỉ Tri Giác",
+                title: "Chuyển câu sau sang dạng bị động nâng cao:",
+                question: "They saw the suspect enter the secret room around midnight.\n➔ The suspect was seen ______ the secret room around midnight.",
+                options: [
+                    "enter",
+                    "entered",
+                    "will enter",
+                    "to enter"
+                ],
+                correct: 3,
+                explanation: "Bị động với động từ chỉ tri giác (see/hear + O + V bare): Khi chuyển sang bị động, V nguyên thể (enter) đổi thành 'to V' ➔ 'was seen to enter'."
+            },
+            {
+                id: 5,
+                category: "Thể Nhờ Bảo Bị Động (Causative Passive)",
+                title: "Chọn dạng đúng của động từ trong cấu trúc nhờ bảo:",
+                question: "My parents will have a professional decorator repaint our living room.\n➔ My parents will have our living room ______ by a professional decorator.",
+                options: [
+                    "repaint",
+                    "repainted",
+                    "to repaint",
+                    "repainting"
+                ],
+                correct: 1,
+                explanation: "Cấu trúc thể nhờ bảo dạng bị động: S + have + Something + V3/ed (nhờ/thuê cái gì được làm bởi ai)."
+            },
+            {
+                id: 6,
+                category: "Giới Từ Đi Kèm Thay Cho 'By'",
+                title: "Chọn giới từ chính xác trong câu bị động sau:",
+                question: "Thick white snow covered all the high mountain peaks.\n➔ All the high mountain peaks were covered ______ thick white snow.",
+                options: [
+                    "by",
+                    "at",
+                    "with",
+                    "to"
+                ],
+                correct: 2,
+                explanation: "Cụm tính từ/động từ bị động cố định: 'be covered with' (được bao phủ bởi/bằng chất liệu gì), không dùng 'by' trong trường hợp này."
+            },
+            {
+                id: 7,
+                category: "Bị Động Của Danh Động Từ (Passive Gerund)",
+                title: "Chuyển câu chứa V-ing sang dạng bị động:",
+                question: "She hates people telling her what to do in public.\n➔ She hates ______ what to do in public.",
+                options: [
+                    "being told",
+                    "to be told",
+                    "telling",
+                    "be told"
+                ],
+                correct: 0,
+                explanation: "Động từ 'hate' đi với V-ing (hate doing sth). Khi chuyển sang bị động của V-ing, công thức là: S + hate + being + V3/ed."
+            },
+            {
+                id: 8,
+                category: "Bị Động Đặc Biệt Với 'Need'",
+                title: "Chọn đáp án mang nghĩa bị động phù hợp:",
+                question: "Your bicycle is very dirty and the chain is loose. It really needs ______ immediately.",
+                options: [
+                    "to repair",
+                    "repaired",
+                    "repairing",
+                    "repair"
+                ],
+                correct: 2,
+                explanation: "Cấu trúc bị động đặc biệt với động từ 'need' cho vật: S (chỉ vật) + need + V-ing = S + need + to be V3/ed."
+            },
+            {
+                id: 9,
+                category: "Rút Gọn Mệnh Đề Quan Hệ Dạng Bị Động",
+                title: "Chọn đáp án đúng điền vào chỗ trống:",
+                question: "The heavy parcels ______ to the remote mountain village were severely damaged in transit.",
+                options: [
+                    "sending",
+                    "sent",
+                    "which sent",
+                    "were sent"
+                ],
+                correct: 1,
+                explanation: "Đây là mệnh đề quan hệ rút gọn dạng bị động: 'which were sent' được rút gọn thành 'sent'. Trong câu đã có động từ chính là 'were severely damaged'."
+            },
+            {
+                id: 10,
+                category: "Bị Động Với Modal Perfect (Should Have + V3)",
+                title: "Chọn cấu trúc câu bị động hoàn chỉnh:",
+                question: "They should not have published those unverified rumors on the internet.\n➔ Those unverified rumors should not ______ on the internet.",
+                options: [
+                    "be published",
+                    "have published",
+                    "been published",
+                    "have been published"
+                ],
+                correct: 3,
+                explanation: "Bị động của Động từ khuyết thiếu hoàn thành (Modal Perfect Passive): S + modal + have been + V3/ed (lẽ ra không nên được xuất bản)."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedOption = null;
+        let soundEnabled = true;
+
+        // Web Audio API synthesis
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function playSound(type) {
+            if (!soundEnabled) return;
+
+            if (navigator.vibrate) {
+                if (type === 'correct') navigator.vibrate([30, 50, 30]);
+                else if (type === 'wrong') navigator.vibrate(100);
+                else if (type === 'click') navigator.vibrate(15);
+            }
+
+            try {
+                if (!audioCtx) audioCtx = new AudioContext();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                const now = audioCtx.currentTime;
+
+                if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(450, now);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+                    osc.start(now);
+                    osc.stop(now + 0.05);
+                } else if (type === 'correct') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, now); // A3
+                    osc.frequency.setValueAtTime(180, now + 0.15);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                }
+            } catch (e) {
+                console.log("Audio playback error:", e);
+            }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const icon = document.getElementById('soundIcon');
+            if (soundEnabled) {
+                icon.className = 'fa-solid fa-volume-high text-lg';
+            } else {
+                icon.className = 'fa-solid fa-volume-xmark text-lg text-slate-400';
+            }
+        }
+
+        function startQuiz() {
+            playSound('click');
+            currentQuestionIndex = 0;
+            score = 0;
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('quizScreen').classList.remove('hidden');
+            document.getElementById('quizScreen').classList.add('flex');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            selectedOption = null;
+            const q = questions[currentQuestionIndex];
+
+            // Progress Bar & Info
+            const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = `${progressPercent}%`;
+            document.getElementById('progressText').innerText = `Câu ${currentQuestionIndex + 1} / ${questions.length}`;
+            document.getElementById('questionCategory').innerText = q.category;
+
+            // Content Update
+            document.getElementById('questionTitle').innerText = q.title;
+            document.getElementById('questionText').innerHTML = q.question.replace(/\n/g, '<br/>');
+
+            // Hide Feedback Box
+            document.getElementById('feedbackContainer').classList.add('hidden');
+
+            // Options Container
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+
+            const optionLabels = ['A', 'B', 'C', 'D'];
+
+            q.options.forEach((optText, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `option-btn w-full p-4 rounded-2xl border-2 border-slate-200 text-left flex items-center space-x-3 bg-white hover:border-indigo-500 hover:bg-indigo-50/50 transition focus:outline-none`;
+                btn.onclick = () => selectOption(idx);
+                btn.id = `opt-${idx}`;
+
+                btn.innerHTML = `
+                    <span class="w-9 h-9 rounded-xl bg-slate-100 text-slate-700 font-bold flex items-center justify-center flex-shrink-0 text-base border border-slate-200">
+                        ${optionLabels[idx]}
+                    </span>
+                    <span class="text-slate-800 text-base sm:text-lg font-semibold pt-0.5">
+                        ${optText}
+                    </span>
+                `;
+                container.appendChild(btn);
+            });
+
+            // Update Next button label
+            const nextBtnText = document.getElementById('nextBtnText');
+            if (currentQuestionIndex === questions.length - 1) {
+                nextBtnText.innerText = "Xem Tổng Kết Điểm Nâng Cao";
+            } else {
+                nextBtnText.innerText = "Câu Tiếp Theo";
+            }
+        }
+
+        function selectOption(index) {
+            if (selectedOption !== null) return;
+            selectedOption = index;
+
+            const q = questions[currentQuestionIndex];
+            const isCorrect = (index === q.correct);
+
+            if (isCorrect) {
+                score++;
+                playSound('correct');
+            } else {
+                playSound('wrong');
+            }
+
+            // Highlight Option Buttons
+            q.options.forEach((_, idx) => {
+                const btn = document.getElementById(`opt-${idx}`);
+                btn.disabled = true;
+
+                if (idx === q.correct) {
+                    btn.className = `option-btn w-full p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-900 font-semibold flex items-center space-x-3`;
+                    btn.querySelector('span').className = `w-9 h-9 rounded-xl bg-emerald-500 text-white font-bold flex items-center justify-center flex-shrink-0 text-base`;
+                } else if (idx === index && !isCorrect) {
+                    btn.className = `option-btn w-full p-4 rounded-2xl border-2 border-rose-500 bg-rose-50 text-rose-900 flex items-center space-x-3`;
+                    btn.querySelector('span').className = `w-9 h-9 rounded-xl bg-rose-500 text-white font-bold flex items-center justify-center flex-shrink-0 text-base`;
+                } else {
+                    btn.className = `option-btn w-full p-4 rounded-2xl border border-slate-200 bg-slate-50 text-slate-400 opacity-60 flex items-center space-x-3`;
+                }
+            });
+
+            // Display Feedback Box
+            const feedbackContainer = document.getElementById('feedbackContainer');
+            const feedbackBox = document.getElementById('feedbackBox');
+            const feedbackTitle = document.getElementById('feedbackTitle');
+            const feedbackText = document.getElementById('feedbackText');
+
+            if (isCorrect) {
+                feedbackBox.className = 'p-4 rounded-2xl mb-4 border bg-emerald-50 border-emerald-200 text-emerald-950';
+                feedbackTitle.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600 text-xl"></i> <span>Chính xác! Tư duy rất xuất sắc.</span>`;
+            } else {
+                feedbackBox.className = 'p-4 rounded-2xl mb-4 border bg-rose-50 border-rose-200 text-rose-950';
+                feedbackTitle.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-600 text-xl"></i> <span>Tiếc quá! Đây là một bẫy ngữ pháp.</span>`;
+            }
+
+            feedbackText.innerText = q.explanation;
+            feedbackContainer.classList.remove('hidden');
+
+            feedbackContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function nextQuestion() {
+            playSound('click');
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quizScreen').classList.add('hidden');
+            document.getElementById('quizScreen').classList.remove('flex');
+            
+            const resultScreen = document.getElementById('resultScreen');
+            resultScreen.classList.remove('hidden');
+            resultScreen.classList.add('flex');
+
+            const scoreText = document.getElementById('resultScore');
+            const titleText = document.getElementById('resultTitle');
+            const adviceText = document.getElementById('adviceText');
+            const badge = document.getElementById('resultBadge');
+
+            scoreText.innerText = `${score} / ${questions.length}`;
+
+            if (score === 10) {
+                badge.innerText = '👑';
+                badge.className = 'w-24 h-24 mx-auto rounded-3xl flex items-center justify-center text-5xl shadow-xl bg-amber-100 text-amber-600 border border-amber-300';
+                titleText.innerText = 'Bậc Thầy Ngữ Pháp Nâng Cao!';
+                titleText.className = 'text-2xl font-extrabold text-amber-600 mt-2';
+                adviceText.innerText = 'Thật kinh ngạc! Bạn đã vượt qua toàn bộ 10 câu hỏi nâng cao bao gồm các bẫy nội động từ, bị động không ngôi và thể nhờ bảo. Điểm số tuyệt đối này chứng tỏ bạn hoàn toàn đủ năng lực chinh phục các kỳ thi Học sinh giỏi!';
+            } else if (score >= 7) {
+                badge.innerText = '🌟';
+                badge.className = 'w-24 h-24 mx-auto rounded-3xl flex items-center justify-center text-5xl shadow-xl bg-indigo-100 text-indigo-600 border border-indigo-300';
+                titleText.innerText = 'Thành Tích Rất Xuất Sắc!';
+                titleText.className = 'text-2xl font-extrabold text-indigo-600 mt-2';
+                adviceText.innerText = 'Bạn có tư duy ngữ pháp cực kỳ vững vàng! Bạn chỉ mắc phải 1-2 bẫy nhỏ ở phần động từ tri giác hoặc giới từ đi kèm. Hãy xem lại kỹ các câu sai để hoàn thiện 100% kiến thức nhé.';
+            } else if (score >= 5) {
+                badge.innerText = '🎯';
+                badge.className = 'w-24 h-24 mx-auto rounded-3xl flex items-center justify-center text-5xl shadow-xl bg-sky-100 text-sky-600 border border-sky-300';
+                titleText.innerText = 'Đạt Mức Khá Nâng Cao!';
+                titleText.className = 'text-2xl font-extrabold text-sky-600 mt-2';
+                adviceText.innerText = 'Bạn đã nắm được dạng bị động cơ bản nhưng vẫn bị nhầm ở các cấu trúc nâng cao như "It is believed that...", "have sth done" hay "need V-ing". Đọc kỹ phần tóm tắt công thức bên dưới để ôn tập lại nhé!';
+            } else {
+                badge.innerText = '💡';
+                badge.className = 'w-24 h-24 mx-auto rounded-3xl flex items-center justify-center text-5xl shadow-xl bg-slate-100 text-slate-700 border border-slate-300';
+                titleText.innerText = 'Cần Ôn Lại Cấu Trúc Nâng Cao!';
+                titleText.className = 'text-2xl font-extrabold text-slate-700 mt-2';
+                adviceText.innerText = 'Đừng nản chí! Đây là bộ đề có độ khó vượt cấp với nhiều bẫy ngữ pháp. Hãy xem kỹ từng lời giải chi tiết sau mỗi câu hỏi và ghi chép lại các trường hợp ngoại lệ nhé!';
+            }
+        }
+
+        function restartQuiz() {
+            playSound('click');
+            startQuiz();
+        }
+
+        function shareResults() {
+            playSound('click');
+            const shareText = `Tôi đã hoàn thành bài thi "Câu Bị Động Tiếng Anh Lớp 8 - Mức Độ Nâng Cao" với số điểm ${score}/10! Hãy thử sức ngay cùng mình xem bạn vượt qua được bao nhiêu bẫy ngữ pháp nhé!`;
+            
+            const tempInput = document.createElement("textarea");
+            tempInput.value = shareText;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
+            showToast("Đã sao chép kết quả nâng cao vào bộ nhớ tạm!");
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastText').innerText = msg;
+            toast.classList.remove('opacity-0');
+            toast.classList.add('opacity-100');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0');
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
+```
+
+### Tóm tắt các thay đổi nổi bật:
+- **Tăng độ khó toàn diện:** Thay thế các câu nhận biết đơn giản bằng các dạng **Impersonal Passive** (*It is believed that...*), **Causative** (*have sth repainted*), **Perception Verbs** (*was seen to enter*), **Passive Gerund** (*hate being told*), **Relative Clause Reduction** (*parcels sent to...*), và **Modal Perfect Passive** (*should not have been published*).
+- **Bổ sung câu hỏi bẫy (Traps):** Đưa vào dạng câu nhận biết **Nội động từ (Intransitive verbs)** như *happen*, giúp học sinh hiểu rõ bản chất động từ không thể chia bị động.
+- **Lời giải chi tiết & Bảng tóm tắt công thức nâng cao:** Giúp học sinh vừa thử sức vừa ghi nhớ được các quy tắc ngoại lệ quan trọng.
